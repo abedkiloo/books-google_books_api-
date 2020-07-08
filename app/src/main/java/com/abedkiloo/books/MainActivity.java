@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
             TextView textViewError = findViewById(R.id.textViewError);
             progressBar.setVisibility(View.INVISIBLE);
             if (s == null) {
-                textViewError.setVisibility(View.INVISIBLE);
-                textViewResponse.setVisibility(View.VISIBLE);
-            } else {
                 textViewError.setVisibility(View.VISIBLE);
                 textViewResponse.setVisibility(View.INVISIBLE);
+            } else {
+                textViewError.setVisibility(View.INVISIBLE);
+                textViewResponse.setVisibility(View.VISIBLE);
             }
             textViewResponse.setText(s);
 

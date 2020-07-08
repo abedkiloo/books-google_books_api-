@@ -14,8 +14,8 @@ public class ApiUtil {
     public static final String BASE_API_URL =
             "https://www.googleapis.com/books/v1/volumes";
     private static final String QUERY_PARAM = "q";
-    private static String API_KEY="AIzaSyD8VartiyNJ_hRcWUh4bXKWRWamOMNxCt8";
-    private String KEY="key";
+    private static String API_KEY = "AIzaSyD8VartiyNJ_hRcWUh4bXKWRWamOMNxCt8";
+    private static String KEY = "key";
 
     private ApiUtil() {
     }
@@ -23,11 +23,15 @@ public class ApiUtil {
     public static URL books_url_builder(String title) throws MalformedURLException {
         Uri uri = Uri.parse(BASE_API_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, title)
+                .appendQueryParameter(KEY, API_KEY)
                 .build();
         URL url = null;
 
 
-        return  url = new URL(uri.toString());
+        url = new URL(uri.toString());
+
+
+        return url;
     }
 
     /* connect to the api     */
