@@ -1,5 +1,6 @@
 package com.abedkiloo.books;
 
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
@@ -12,16 +13,21 @@ import java.util.Scanner;
 public class ApiUtil {
     public static final String BASE_API_URL =
             "https://www.googleapis.com/books/v1/volumes";
+    private static final String QUERY_PARAM = "q";
+    private static String API_KEY="AIzaSyD8VartiyNJ_hRcWUh4bXKWRWamOMNxCt8";
+    private String KEY="key";
 
     private ApiUtil() {
     }
 
-    public static URL books_url_builder(String param) throws MalformedURLException {
-        String full_url = BASE_API_URL + "q=" + param;
+    public static URL books_url_builder(String title) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE_API_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, title)
+                .build();
         URL url = null;
 
-        return url = new URL(full_url);
 
+        return  url = new URL(uri.toString());
     }
 
     /* connect to the api     */
