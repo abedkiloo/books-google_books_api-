@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static ProgressBar progressBar;
@@ -55,7 +58,18 @@ public class MainActivity extends AppCompatActivity {
                 textViewError.setVisibility(View.INVISIBLE);
                 textViewResponse.setVisibility(View.VISIBLE);
             }
-            textViewResponse.setText(s);
+            String resString = "";
+
+            try {
+                ArrayList<Book> bookArrayList = ApiUtil.getBookFromJson(s);
+                for (Book book : bookArrayList) {
+                    resString = book.title + "\n" + book.publisher + "\n" + book.publishedDate;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            textViewResponse.setText(resString);
 
         }
 
@@ -63,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
+
 
         }
     }
