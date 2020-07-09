@@ -58,18 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 textViewError.setVisibility(View.INVISIBLE);
                 textViewResponse.setVisibility(View.VISIBLE);
             }
-            String resString = "";
 
-            try {
+                String resString = "";
+
                 ArrayList<Book> bookArrayList = ApiUtil.getBookFromJson(s);
                 for (Book book : bookArrayList) {
-                    resString = book.title + "\n" + book.publisher + "\n" + book.publishedDate;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                    resString =  book.title + "\n" + book.publisher + "\n" + book.publishedDate;
+                    textViewResponse.setText(resString);
 
-            textViewResponse.setText(resString);
+                }
+
+
 
         }
 

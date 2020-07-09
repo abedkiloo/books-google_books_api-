@@ -63,7 +63,7 @@ public class ApiUtil {
         }
     }
 
-    public static ArrayList<Book> getBookFromJson(String jsonString) throws JSONException {
+    public static ArrayList<Book> getBookFromJson(String jsonString) {
         final String ID = "id";
         final String TITLE = "title";
         final String SUB_TITLE = "subTitle";
@@ -74,29 +74,35 @@ public class ApiUtil {
         final String VOLUMES_INFO = "volumeInfo";
         ArrayList<Book> bookArrayList = new ArrayList<Book>();
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray arrayBooks = jsonObject.getJSONArray(ITEMS);
-        int bookcount = arrayBooks.length();
-        for (int i = 0; i < bookcount; i++) {
-            JSONObject bookJSON = arrayBooks.getJSONObject(i);
-            JSONObject volumeInfoJSON = bookJSON.getJSONObject(VOLUMES_INFO);
-            int authorCount = volumeInfoJSON.getJSONArray(AUTHORS).length();
-            String[] authors = new String[authorCount];
-            for (int j = 0; j < authorCount; j++) {
-                authors[j] = volumeInfoJSON.getJSONArray(AUTHORS).get(j).toString();
+        JSONObject jsonBooks = null;
+        try {
+            jsonBooks = new JSONObject(jsonString);
+
+            JSONArray arrayBooks = jsonBooks.getJSONArray(ITEMS);
+            int bookCount = arrayBooks.length();
+            for (int i = 0; i < bookCount; i++) {
+                JSONObject bookJSON = arrayBooks.getJSONObject(i);
+                JSONObject volumeInfoJSON = bookJSON.getJSONObject(VOLUMES_INFO);
+                int authorCount = volumeInfoJSON.getJSONArray(AUTHORS).length();
+                String[] authors = new String[authorCount];
+                for (int j = 0; j < authorCount; j++) {
+                    authors[j] = volumeInfoJSON.getJSONArray(AUTHORS).get(j).toString();
+                }
+                Book newBook = new Book(
+                        bookJSON.getString(ID),
+                        volumeInfoJSON.getString(TITLE),
+                        (volumeInfoJSON.isNull(SUB_TITLE) ? "" : volumeInfoJSON.getString(SUB_TITLE)),
+                        authors,
+                        volumeInfoJSON.getString(PUBLISHER),
+                        volumeInfoJSON.getString(PUBLISHED_DATE)
+
+                );
+                bookArrayList.add(newBook);
             }
-            Book newBook = new Book(
-                    bookJSON.getString(ID),
-                    volumeInfoJSON.getString(TITLE),
-                    (volumeInfoJSON.isNull(SUB_TITLE) ? "" : volumeInfoJSON.getString(SUB_TITLE)),
-                    authors,
-                    volumeInfoJSON.getString(PUBLISHER),
-                    volumeInfoJSON.getString(PUBLISHED_DATE)
-
-            );
-            bookArrayList.add(newBook);
+            Log.e("BOOK_LISTED", bookArrayList.get(0).title);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
         return bookArrayList;
     }
 }
