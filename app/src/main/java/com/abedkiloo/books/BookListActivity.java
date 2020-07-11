@@ -8,22 +8,27 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.json.JSONException;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    private static ProgressBar progressBar;
+public class BookListActivity extends AppCompatActivity {
+    private ProgressBar progressBar;
+    private RecyclerView booksRecyclerView;
+    private BookAdapter bookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.book_lists);
         progressBar = findViewById(R.id.progressBar);
+        booksRecyclerView = findViewById(R.id.books_recycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        booksRecyclerView.setLayoutManager(linearLayoutManager);
         URL url = null;
         try {
             url = ApiUtil.books_url_builder("cooking");
@@ -48,26 +53,21 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            TextView textViewResponse = findViewById(R.id.tvResponse);
             TextView textViewError = findViewById(R.id.textViewError);
             progressBar.setVisibility(View.INVISIBLE);
             if (s == null) {
                 textViewError.setVisibility(View.VISIBLE);
-                textViewResponse.setVisibility(View.INVISIBLE);
+                booksRecyclerView.setVisibility(View.INVISIBLE);
             } else {
                 textViewError.setVisibility(View.INVISIBLE);
-                textViewResponse.setVisibility(View.VISIBLE);
+                booksRecyclerView.setVisibility(View.VISIBLE);
             }
 
-                String resString = "";
 
-                ArrayList<Book> bookArrayList = ApiUtil.getBookFromJson(s);
-                for (Book book : bookArrayList) {
-                    resString =  book.title + "\n" + book.publisher + "\n" + book.publishedDate;
-                    textViewResponse.setText(resString);
+            ArrayList<Book> bookArrayList = ApiUtil.getBookFromJson(s);
 
-                }
-
+            bookAdapter = new BookAdapter(bookArrayList);
+            booksRecyclerView.setAdapter(bookAdapter);
 
 
         }

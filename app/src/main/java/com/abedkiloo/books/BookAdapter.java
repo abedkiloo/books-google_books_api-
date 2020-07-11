@@ -1,16 +1,46 @@
 package com.abedkiloo.books;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BookAdapter  {
-    public class BookVIewHolder extends RecyclerView.ViewHolder {
+import java.util.ArrayList;
+
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
+    ArrayList<Book> books = new ArrayList<>();
+
+    public BookAdapter(ArrayList<Book> books) {
+        this.books = books;
+    }
+
+    @NonNull
+    @Override
+    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.book_item_design, parent, false);
+        return new BookViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
+        Book book = books.get(position);
+        holder.bind(book);
+    }
+
+    @Override
+    public int getItemCount() {
+        return books.size();
+    }
+
+    static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView titleTV, authorTV, publisherTv, publishDateTv;
 
-        public BookVIewHolder(@NonNull View itemView) {
+         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTV = itemView.findViewById(R.id.title_tv);
             authorTV = itemView.findViewById(R.id.author_tv);
@@ -18,7 +48,8 @@ public class BookAdapter  {
             publisherTv = itemView.findViewById(R.id.publisher_tv);
         }
 
-        public void bind(Book book) {
+        void bind(Book book) {
+
             titleTV.setText(book.title);
             String authors = "";
             int i = 0;
