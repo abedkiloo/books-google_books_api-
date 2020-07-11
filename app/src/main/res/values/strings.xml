@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Books</string>
     <string name="error_loadiing_api_data">ERROR LOADIING API DATA</string>
+    <string name="book_open_drawable">book_open_drawable</string>
 </resources>
