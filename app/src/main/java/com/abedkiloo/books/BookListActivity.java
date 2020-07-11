@@ -3,11 +3,15 @@ package com.abedkiloo.books;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class BookListActivity extends AppCompatActivity {
+public class BookListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ProgressBar progressBar;
     private RecyclerView booksRecyclerView;
     private BookAdapter bookAdapter;
@@ -27,7 +31,7 @@ public class BookListActivity extends AppCompatActivity {
         setContentView(R.layout.book_lists);
         progressBar = findViewById(R.id.progressBar);
         booksRecyclerView = findViewById(R.id.books_recycler);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         booksRecyclerView.setLayoutManager(linearLayoutManager);
         URL url = null;
         try {
@@ -36,6 +40,33 @@ public class BookListActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search, menu);
+        final MenuItem searchMenu = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        searchView.setOnQueryTextListener(this);
+        return true;
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        try {
+            URL url = ApiUtil.books_url_builder(query);
+            new BookQueryTask().execute(url);
+        } catch (MalformedURLException e) {
+            Log.e("ERROR_IN_SEARCH_QUERY", e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     public class BookQueryTask extends AsyncTask<URL, Void, String> {
@@ -80,5 +111,4 @@ public class BookListActivity extends AppCompatActivity {
 
         }
     }
-
 }
