@@ -1,14 +1,16 @@
 package com.abedkiloo.books;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-public class NoteDetailActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class BookDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
+        getIntent();
+        Book book = getIntent().getParcelableExtra("Book");
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NoteDetailActivity">
+    tools:context=".BookDetailActivity">
 
     <TextView
         android:id="@+id/detail_title_tv"
