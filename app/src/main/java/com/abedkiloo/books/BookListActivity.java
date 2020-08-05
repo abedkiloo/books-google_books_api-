@@ -42,16 +42,16 @@ public class BookListActivity extends AppCompatActivity implements SearchView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.search, menu);
-        final MenuItem searchMenu = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
-        searchView.setOnQueryTextListener(this);
-        return true;
-
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.search, menu);
+//        final MenuItem searchMenu = menu.findItem(R.id.action_search);
+//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+//        searchView.setOnQueryTextListener(this);
+//        return true;
+//
+//    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
