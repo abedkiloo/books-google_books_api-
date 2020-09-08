@@ -2,6 +2,7 @@ package com.abedkiloo.books;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class Book implements Parcelable {
 
@@ -9,7 +10,7 @@ public class Book implements Parcelable {
     public String id;
     public String title;
     public String subTitle;
-    public String[] authors;
+    public String authors;
     public String publisher;
     public String publishedDate;
 
@@ -17,20 +18,21 @@ public class Book implements Parcelable {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
-        this.authors = authors;
+        this.authors = TextUtils.join(", ", authors);
         this.publisher = publisher;
         this.publishedDate = publishedDate;
     }
 
     protected Book(Parcel parcel) {
-        id=parcel.readString();
-        title=parcel.readString();
-        subTitle=parcel.readString();
-        authors=parcel.createStringArray();
-        publisher=parcel.readString();
-        publishedDate=parcel.readString();
+        id = parcel.readString();
+        title = parcel.readString();
+        subTitle = parcel.readString();
+        authors = parcel.readString();
+        publisher = parcel.readString();
+        publishedDate = parcel.readString();
     }
-    public static final Creator<Book> CREATOR=new Creator<Book>() {
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
         public Book createFromParcel(Parcel source) {
             return new Book(source);
@@ -52,7 +54,7 @@ public class Book implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(subTitle);
-        dest.writeStringArray(authors);
+        dest.writeString(authors);
         dest.writeString(publishedDate);
         dest.writeString(publisher);
     }

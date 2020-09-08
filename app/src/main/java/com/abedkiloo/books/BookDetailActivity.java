@@ -3,6 +3,9 @@ package com.abedkiloo.books;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
+import com.abedkiloo.books.databinding.ActivityNoteDetailBinding;
 
 public class BookDetailActivity extends AppCompatActivity {
 
@@ -10,7 +13,9 @@ public class BookDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
-        getIntent();
-        Book book = getIntent().getParcelableExtra("Book");
+         Book book = getIntent().getParcelableExtra("Book");
+        ActivityNoteDetailBinding binding= DataBindingUtil.setContentView(this,
+                 R.layout.activity_note_detail);
+        binding.setBook(book);
     }
 }
